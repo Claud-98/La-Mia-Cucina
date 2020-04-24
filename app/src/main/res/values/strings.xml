@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">La Mia Cucina</string>
+    <string name="icon_add_MA">Add</string>
+    <string name="icon_favourite_MA">Favourite</string>
+    <string name="icon_search_MA">Search</string>
+    <string name="app_title">Le Mie Ricette</string>
 </resources>
