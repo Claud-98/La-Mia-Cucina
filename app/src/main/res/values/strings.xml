@@ -4,4 +4,5 @@
     <string name="icon_favourite_MA">Favourite</string>
     <string name="icon_search_MA">Search</string>
     <string name="app_title">Le Mie Ricette</string>
+    <string name="send_search_actvity">Send</string>
 </resources>
