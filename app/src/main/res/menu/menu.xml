@@ -20,8 +20,9 @@
         android:title="@string/icon_search_MA"
         android:id="@+id/Search_MA"
         android:icon="@drawable/icon_search_ma"
-        app:showAsAction="collapseActionView|always"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
+
+        app:showAsAction="always"
+
 
         />
 </menu>
