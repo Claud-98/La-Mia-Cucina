@@ -42,6 +42,7 @@ public class MealsRepository {
             @Override
             public void onResponse(Call<SearchByNameApiResponse> call, Response<SearchByNameApiResponse> response) {
 
+
                 meals.postValue(response.body().getMeals());
 
             }

@@ -1,8 +1,12 @@
 package com.example.lamiacucina.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class SearchByNameApiResponse {
+public class SearchByNameApiResponse{
     private List<Meal> meals;
 
     public SearchByNameApiResponse(List<Meal> meals) {
@@ -23,4 +27,7 @@ public class SearchByNameApiResponse {
                 "meals=" + meals +
                 '}';
     }
+
+
+
 }
