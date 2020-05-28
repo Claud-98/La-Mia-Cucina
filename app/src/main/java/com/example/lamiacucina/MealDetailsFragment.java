@@ -13,7 +13,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
+import com.example.lamiacucina.databinding.FragmentMealDetailsBinding;
+import com.example.lamiacucina.databinding.FragmentShowMealBinding;
 import com.example.lamiacucina.models.Meal;
 
 
@@ -21,6 +24,8 @@ import com.example.lamiacucina.models.Meal;
  * A simple {@link Fragment} subclass.
  */
 public class MealDetailsFragment extends Fragment {
+
+    private FragmentMealDetailsBinding binding;
 
     public MealDetailsFragment() {
         // Required empty public constructor
@@ -35,8 +40,8 @@ public class MealDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_meal_details, container, false);
+        binding = FragmentMealDetailsBinding.inflate(getLayoutInflater());
+        return binding.getRoot();
 
     }
 
@@ -58,6 +63,10 @@ public class MealDetailsFragment extends Fragment {
         Meal meal = MealDetailsFragmentArgs.fromBundle(getArguments()).getMeal();
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(meal.getStrMeal());
+
+        binding.recipeDirections.setText(meal.getStrInstructions());
+
+
 
 
 

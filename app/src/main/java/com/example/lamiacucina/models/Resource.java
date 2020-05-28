@@ -1,15 +1,15 @@
 package com.example.lamiacucina.models;
 
-public class Resurce<T> {
+public class Resource<T> {
 
     private T data;
     private int totalResults;
     private  int statusCode;
     private String statusMessage;
 
-    public  Resurce(){}
+    public Resource(){}
 
-    public Resurce(T data, int totalResults, int statusCode, String statusMessage) {
+    public Resource(T data, int totalResults, int statusCode, String statusMessage) {
         this.data = data;
         this.totalResults = totalResults;
         this.statusCode = statusCode;

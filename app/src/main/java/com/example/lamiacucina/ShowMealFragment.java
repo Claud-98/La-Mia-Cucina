@@ -5,16 +5,12 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +24,7 @@ import android.widget.ImageView;
 import com.example.lamiacucina.adapters.SearchMealAdapter;
 import com.example.lamiacucina.databinding.FragmentShowMealBinding;
 import com.example.lamiacucina.models.Meal;
+import com.example.lamiacucina.models.Resource;
 import com.example.lamiacucina.viewmodels.MealViewModel;
 
 import java.util.List;
@@ -43,6 +40,7 @@ public class ShowMealFragment extends Fragment {
     private FragmentShowMealBinding binding;
     private String searchQuery;
     private String SEARCH_QUERY = "searchQuery";
+    private SearchMealAdapter searchMealAdapter;
     private  MenuItem searchItem;
     private SearchView searchView;
 
@@ -52,8 +50,6 @@ public class ShowMealFragment extends Fragment {
         // Required empty public constructor
     }
 
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,33 +58,13 @@ public class ShowMealFragment extends Fragment {
         if(savedInstanceState != null){
             searchQuery = savedInstanceState.getString(SEARCH_QUERY);
         }
-
-
-
     }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putString(SEARCH_QUERY, searchQuery);
-        super.onSaveInstanceState(outState);
-
-
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        if(savedInstanceState != null){
-            searchQuery = savedInstanceState.getString(SEARCH_QUERY);
-        }
-
         binding = FragmentShowMealBinding.inflate(getLayoutInflater());
         return binding.getRoot();
-
-
-
     }
 
     @Override
@@ -103,60 +79,55 @@ public class ShowMealFragment extends Fragment {
         final SearchView searchView = (SearchView) searchItem.getActionView();
         ImageView closeButtonSearch = (ImageView) searchView.findViewById(R.id.search_close_btn);
 
-
-        if(searchQuery != null) {
-
-            searchView.setQuery(searchQuery, true);
-            searchView.clearFocus();
-        }
-
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
                 searchQuery=query;
 
-                final Observer<List<Meal>> observer = new Observer<List<Meal>>() {
+                final Observer<Resource<List<Meal>>> observer = new Observer<Resource<List<Meal>>>() {
                     @Override
-                    public void onChanged(List<Meal> meals) {
+                    public void onChanged(Resource<List<Meal>> mealsResource) {
                         Log.d(TAG, "onChanged: ");
 
+                        searchMealAdapter.setData(mealsResource.getData());
 
+                        if(mealsResource.getData() != null) {
 
+                            for (int i = 0; i < mealsResource.getData().size(); i++) {
 
-                        for(int i=0; i<meals.size(); i++){
+                                Log.d(TAG, "Ricetta " + i + " " + mealsResource.getData().get(i).getStrMeal());
+                                }
+                            Log.d(TAG, "SizeList: " + mealsResource.getData().size());
 
-                            Log.d(TAG, "Ricetta " + i + " " + meals.get(i).getStrMeal());
+                        } else{
 
-                        }
-                        Log.d(TAG, "SizeList: " + meals.size());
-                        SearchMealAdapter searchMealAdapter = new SearchMealAdapter(getActivity(), meals, new SearchMealAdapter.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(Meal meal) {
-
-                                ShowMealFragmentDirections.ShowMealDetailsAction action = ShowMealFragmentDirections.showMealDetailsAction(meal);
-                                Navigation.findNavController(getView()).navigate(action);
+                            Log.d(TAG, "Informazioni Aggiuntive di Errore: " + mealsResource.getTotalResults() + " " + mealsResource.getStatusCode() + " " + mealsResource.getStatusMessage());
                             }
-                        });
 
-                        binding.showMealRecyclerView.setAdapter(searchMealAdapter);
                     }
                 };
 
 
-                mealViewModel.getMeals(searchQuery).observe(getActivity(), observer);
+                mealViewModel.getMealsResource(searchQuery).observe(getActivity(), observer);
 
+
+                searchView.clearFocus();
 
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+
                 return false;
             }
         });
 
+        if(searchQuery != null) {
+            searchView.setQuery(searchQuery, true);
+            searchView.clearFocus();
+        }
 
         //gestisco click sul bottone clear della searchView per rimuovere lo stato savato
         //che altrimenti ruotando lo schermo verrebbe scorrettamente visualizzato.
@@ -205,14 +176,40 @@ public class ShowMealFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         binding.showMealRecyclerView.setLayoutManager(layoutManager);
 
+        searchMealAdapter = new SearchMealAdapter(getActivity(), getMealList(), new SearchMealAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Meal meal) {
+
+                ShowMealFragmentDirections.ShowMealDetailsAction action = ShowMealFragmentDirections.showMealDetailsAction(meal);
+                Navigation.findNavController(getView()).navigate(action);
+            }
+        });
+
+        binding.showMealRecyclerView.setAdapter(searchMealAdapter);
+
 
 
 
 
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putString(SEARCH_QUERY, searchQuery);
+        super.onSaveInstanceState(outState);
 
 
+    }
+
+    private List<Meal> getMealList (){
+        Resource<List<Meal>> mealsListResource = mealViewModel.getMealsResource(searchQuery).getValue();
+
+        if(mealsListResource != null){
+            return mealsListResource.getData();
+        }
+
+        return null;
+    }
 
 
 

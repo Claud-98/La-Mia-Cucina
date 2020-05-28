@@ -25,12 +25,6 @@ public class SearchActivity extends AppCompatActivity {
 
         binding = ActivitySearchBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-    /*
-        androidx.appcompat.widget.Toolbar toolbar;
-        toolbar = binding.searchActivityToolbar;
-
-        setSupportActionBar(toolbar);
-*/
         setContentView(view);
 
         NavController navController = Navigation.findNavController(this, R.id.navHostfragment);

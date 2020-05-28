@@ -4,13 +4,16 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.lamiacucina.R;
 import com.example.lamiacucina.models.Meal;
+
 
 import java.util.List;
 
@@ -29,17 +32,20 @@ public class SearchMealAdapter extends RecyclerView.Adapter<SearchMealAdapter.Se
     public static class SearchMealViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewMealName;
+        ImageView mealImage;
 
 
         public SearchMealViewHolder (View v) {
             super(v);
             textViewMealName = v.findViewById(R.id.textViewMealName);
+            mealImage= v.findViewById(R.id.mealImage);
 
         }
 
         public void bind(Meal meal, OnItemClickListener onItemClickListener){
-
+            Glide.with(itemView.getContext()).load(meal.getStrMealThumb()).into(mealImage);
             textViewMealName.setText(meal.getStrMeal());
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -56,6 +62,13 @@ public class SearchMealAdapter extends RecyclerView.Adapter<SearchMealAdapter.Se
         this.onItemClickListener = onItemClickListener;
     }
 
+    public void setData(List<Meal> mealList){
+        if (mealList != null){
+            this.mealList = mealList;
+            notifyDataSetChanged();
+        }
+    }
+
     @NonNull
     @Override
     public SearchMealViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -65,12 +78,17 @@ public class SearchMealAdapter extends RecyclerView.Adapter<SearchMealAdapter.Se
 
     @Override
     public void onBindViewHolder(@NonNull SearchMealViewHolder holder, int position) {
-        //holder.textViewMealName.setText(mealList.get(position).getStrMeal());
+
         holder.bind(mealList.get(position), this.onItemClickListener);
     }
 
     @Override
     public int getItemCount() {
-        return mealList.size();
+
+        if (mealList != null) {
+            return mealList.size();
+        }else{
+            return 0;
+        }
     }
 }
