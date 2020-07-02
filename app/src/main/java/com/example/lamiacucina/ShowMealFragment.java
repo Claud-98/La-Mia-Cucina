@@ -41,8 +41,7 @@ public class ShowMealFragment extends Fragment {
     private String searchQuery;
     private String SEARCH_QUERY = "searchQuery";
     private SearchMealAdapter searchMealAdapter;
-    private  MenuItem searchItem;
-    private SearchView searchView;
+
 
 
 

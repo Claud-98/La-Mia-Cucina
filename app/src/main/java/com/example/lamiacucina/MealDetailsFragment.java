@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,11 +14,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
+import com.example.lamiacucina.adapters.ViewPagerAdapter;
 import com.example.lamiacucina.databinding.FragmentMealDetailsBinding;
-import com.example.lamiacucina.databinding.FragmentShowMealBinding;
 import com.example.lamiacucina.models.Meal;
+import com.google.android.material.tabs.TabLayout;
 
 
 /**
@@ -26,6 +27,11 @@ import com.example.lamiacucina.models.Meal;
 public class MealDetailsFragment extends Fragment {
 
     private FragmentMealDetailsBinding binding;
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
+    private IngredientsFragment ingredientsFragment;
+    private CookingProcessFragment cookingProcessFragment;
+
 
     public MealDetailsFragment() {
         // Required empty public constructor
@@ -34,6 +40,8 @@ public class MealDetailsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setHasOptionsMenu(true);
     }
 
@@ -41,6 +49,25 @@ public class MealDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentMealDetailsBinding.inflate(getLayoutInflater());
+
+        viewPager = binding.viewPager;
+        tabLayout = binding.tabLayout;
+
+        ingredientsFragment = new IngredientsFragment();
+        cookingProcessFragment = new CookingProcessFragment();
+
+        tabLayout.setupWithViewPager(viewPager);
+
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager(), 0);
+        viewPagerAdapter.addFragment(ingredientsFragment, "Ingredients");
+        viewPagerAdapter.addFragment(cookingProcessFragment, "Cooking Process");
+        viewPager.setAdapter(viewPagerAdapter);
+
+
+
+
+
+
         return binding.getRoot();
 
     }
@@ -64,7 +91,15 @@ public class MealDetailsFragment extends Fragment {
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(meal.getStrMeal());
 
-        binding.recipeDirections.setText(meal.getStrInstructions());
+
+
+
+
+        //binding.recipeDirections.setText(meal.getStrInstructions());
+
+
+
+
 
 
 
