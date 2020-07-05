@@ -1,5 +1,7 @@
 package com.example.lamiacucina.adapters;
 
+import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -11,8 +13,10 @@ import java.util.List;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
+
     private List<Fragment> fragments = new ArrayList<Fragment>();
     private  List<String> fragmentsTitle = new ArrayList<String>();
+
 
     public ViewPagerAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
@@ -21,7 +25,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public void addFragment(Fragment fragment, String title){
         fragments.add(fragment);
         fragmentsTitle.add(title);
+
     }
+
 
     @Nullable
     @Override
@@ -39,4 +45,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return fragments.size();
     }
+
+
 }

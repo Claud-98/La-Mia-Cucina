@@ -3,13 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CookingProcessFragment">
+    tools:context=".CookingProcessFragment"
+    >
 
-
-    <TextView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Cooking Process"
-        android:id="@+id/cookingProcessText"/>
+        android:layout_height="match_parent">
 
+        <TextView
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/cookingProcessText"
+            android:textColor="@android:color/black"/>
+
+    </androidx.core.widget.NestedScrollView>
 </FrameLayout>

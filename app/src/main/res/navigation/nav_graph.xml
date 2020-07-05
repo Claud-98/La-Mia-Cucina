@@ -12,6 +12,9 @@
         <action
             android:id="@+id/showMealDetailsAction"
             app:destination="@id/mealDetailsFragment" />
+        <action
+            android:id="@+id/errorAction"
+            app:destination="@id/errorFragment" />
     </fragment>
     <fragment
         android:id="@+id/mealDetailsFragment"
@@ -21,29 +24,10 @@
         <argument
             android:name="meal"
             app:argType="com.example.lamiacucina.models.Meal" />
-        <action
-            android:id="@+id/showIngredientsAction"
-            app:destination="@id/ingredientsFragment" />
-        <action
-            android:id="@+id/show_cookingProcessAction"
-            app:destination="@id/cookingProcessFragment" />
     </fragment>
     <fragment
-        android:id="@+id/ingredientsFragment"
-        android:name="com.example.lamiacucina.IngredientsFragment"
-        android:label="fragment_ingredients"
-        tools:layout="@layout/fragment_ingredients" >
-        <argument
-            android:name="meal"
-            app:argType="com.example.lamiacucina.models.Meal" />
-    </fragment>
-    <fragment
-        android:id="@+id/cookingProcessFragment"
-        android:name="com.example.lamiacucina.CookingProcessFragment"
-        android:label="fragment_cooking_process"
-        tools:layout="@layout/fragment_cooking_process" >
-        <argument
-            android:name="meal"
-            app:argType="com.example.lamiacucina.models.Meal" />
-    </fragment>
+        android:id="@+id/errorFragment"
+        android:name="com.example.lamiacucina.ErrorFragment"
+        android:label="fragment_error"
+        tools:layout="@layout/fragment_error" />
 </navigation>

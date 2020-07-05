@@ -7,9 +7,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
@@ -91,6 +94,7 @@ public class ShowMealFragment extends Fragment {
 
                         searchMealAdapter.setData(mealsResource.getData());
 
+
                         if(mealsResource.getData() != null) {
 
                             for (int i = 0; i < mealsResource.getData().size(); i++) {
@@ -102,15 +106,14 @@ public class ShowMealFragment extends Fragment {
                         } else{
 
                             Log.d(TAG, "Informazioni Aggiuntive di Errore: " + mealsResource.getTotalResults() + " " + mealsResource.getStatusCode() + " " + mealsResource.getStatusMessage());
-                            }
+                            //Navigation.findNavController(getView()).navigate(R.id.errorAction);
+                        }
 
                     }
                 };
 
 
                 mealViewModel.getMealsResource(searchQuery).observe(getActivity(), observer);
-
-
                 searchView.clearFocus();
 
                 return true;
@@ -118,8 +121,11 @@ public class ShowMealFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
-                return false;
+                if (newText.equals("")){
+                searchMealAdapter.clearList();
+                searchMealAdapter.notifyDataSetChanged();
+                }
+                return true;
             }
         });
 
@@ -135,6 +141,9 @@ public class ShowMealFragment extends Fragment {
             public void onClick(View v) {
                 searchView.setQuery("", true);
                 searchQuery = null;
+                searchMealAdapter.clearList();
+                searchMealAdapter.notifyDataSetChanged();
+
             }
         });
 
@@ -196,8 +205,6 @@ public class ShowMealFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putString(SEARCH_QUERY, searchQuery);
         super.onSaveInstanceState(outState);
-
-
     }
 
     private List<Meal> getMealList (){

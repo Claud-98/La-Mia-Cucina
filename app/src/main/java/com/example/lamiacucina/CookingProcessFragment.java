@@ -16,7 +16,10 @@ import com.example.lamiacucina.models.Meal;
 
 public class CookingProcessFragment extends Fragment {
 
-    FragmentCookingProcessBinding binding;
+    private FragmentCookingProcessBinding binding;
+    private String COOKING_PROCESS = "Cooking Process";
+    private String cookingProcess;
+
 
     public CookingProcessFragment() {
         // Required empty public constructor
@@ -27,6 +30,7 @@ public class CookingProcessFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentCookingProcessBinding.inflate(getLayoutInflater());
+
         return binding.getRoot();
     }
 
@@ -34,7 +38,12 @@ public class CookingProcessFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //Meal meal = CookingProcessFragmentArgs.fromBundle(getArguments()).getMeal();
-        //binding.cookingProcessText.setText(meal.getStrIngredient1());
+        cookingProcess = getArguments().getString(COOKING_PROCESS);
+        binding.cookingProcessText.setText(cookingProcess);
+
 
     }
+
+
+
 }

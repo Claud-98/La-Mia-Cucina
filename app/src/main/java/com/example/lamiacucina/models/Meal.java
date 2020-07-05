@@ -3,6 +3,11 @@ package com.example.lamiacucina.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Meal implements Parcelable {
 
     private int idMeal;
@@ -641,6 +646,74 @@ public class Meal implements Parcelable {
         strSource = in.readString();
         dateModified = in.readString();
     }
+
+    public ArrayList<String> ingredientsToList(){
+
+        ArrayList<String> ingredients = new ArrayList<String>();
+        List<String> ingredientsTmp = new ArrayList<String>();
+        List<String> mesure = new ArrayList<String>();
+
+        ingredientsTmp.add(strIngredient1);
+        ingredientsTmp.add(strIngredient2);
+        ingredientsTmp.add(strIngredient3);
+        ingredientsTmp.add(strIngredient4);
+        ingredientsTmp.add(strIngredient5);
+        ingredientsTmp.add(strIngredient6);
+        ingredientsTmp.add(strIngredient7);
+        ingredientsTmp.add(strIngredient8);
+        ingredientsTmp.add(strIngredient9);
+        ingredientsTmp.add(strIngredient10);
+        ingredientsTmp.add(strIngredient11);
+        ingredientsTmp.add(strIngredient12);
+        ingredientsTmp.add(strIngredient13);
+        ingredientsTmp.add(strIngredient14);
+        ingredientsTmp.add(strIngredient15);
+        ingredientsTmp.add(strIngredient16);
+        ingredientsTmp.add(strIngredient17);
+        ingredientsTmp.add(strIngredient18);
+        ingredientsTmp.add(strIngredient19);
+        ingredientsTmp.add(strIngredient20);
+
+        mesure.add(strMeasure1);
+        mesure.add(strMeasure2);
+        mesure.add(strMeasure3);
+        mesure.add(strMeasure4);
+        mesure.add(strMeasure5);
+        mesure.add(strMeasure6);
+        mesure.add(strMeasure7);
+        mesure.add(strMeasure8);
+        mesure.add(strMeasure9);
+        mesure.add(strMeasure10);
+        mesure.add(strMeasure11);
+        mesure.add(strMeasure12);
+        mesure.add(strMeasure3);
+        mesure.add(strMeasure14);
+        mesure.add(strMeasure15);
+        mesure.add(strMeasure16);
+        mesure.add(strMeasure17);
+        mesure.add(strMeasure18);
+        mesure.add(strMeasure9);
+        mesure.add(strMeasure20);
+
+
+
+
+
+        for (int i= 0; i<ingredientsTmp.size(); i++){
+
+
+            if(ingredientsTmp.get(i) != null && (ingredientsTmp.get(i).length()>=1)){
+                ingredients.add(ingredientsTmp.get(i) + ": " + mesure.get(i) + ";");
+            }
+        }
+
+
+        ingredientsTmp.clear();
+        mesure.clear();
+        return ingredients;
+    }
+
+
 
     @Override
     public int describeContents() {
