@@ -29,5 +29,9 @@
         android:id="@+id/errorFragment"
         android:name="com.example.lamiacucina.ErrorFragment"
         android:label="fragment_error"
-        tools:layout="@layout/fragment_error" />
+        tools:layout="@layout/fragment_error" >
+        <action
+            android:id="@+id/goBackAfterErrorAction"
+            app:destination="@id/showMealFragment" />
+    </fragment>
 </navigation>

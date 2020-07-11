@@ -3,13 +3,17 @@ package com.example.lamiacucina.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+
+@Entity(tableName = "meals")
 public class Meal implements Parcelable {
-
+    @PrimaryKey(autoGenerate = false)
     private int idMeal;
     private String strMeal;
     private String strDrinkAlternate;
@@ -536,7 +540,9 @@ public class Meal implements Parcelable {
         this.dateModified = dateModified;
     }
 
+
     @Override
+    @Ignore
     public String toString() {
         return "Meal{" +
                 "idMeal=" + idMeal +
@@ -592,7 +598,7 @@ public class Meal implements Parcelable {
                 ", dateModified='" + dateModified + '\'' +
                 '}';
     }
-
+    @Ignore
     protected Meal(Parcel in) {
         idMeal = in.readInt();
         strMeal = in.readString();
@@ -646,7 +652,7 @@ public class Meal implements Parcelable {
         strSource = in.readString();
         dateModified = in.readString();
     }
-
+    @Ignore
     public ArrayList<String> ingredientsToList(){
 
         ArrayList<String> ingredients = new ArrayList<String>();
@@ -716,11 +722,13 @@ public class Meal implements Parcelable {
 
 
     @Override
+    @Ignore
     public int describeContents() {
         return 0;
     }
 
     @Override
+    @Ignore
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(idMeal);
         dest.writeString(strMeal);
@@ -776,6 +784,7 @@ public class Meal implements Parcelable {
     }
 
     @SuppressWarnings("unused")
+    @Ignore
     public static final Parcelable.Creator<Meal> CREATOR = new Parcelable.Creator<Meal>() {
         @Override
         public Meal createFromParcel(Parcel in) {

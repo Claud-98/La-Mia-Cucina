@@ -4,8 +4,11 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import android.util.Log;
@@ -19,9 +22,8 @@ import android.view.ViewGroup;
 import com.example.lamiacucina.adapters.ViewPagerAdapter;
 import com.example.lamiacucina.databinding.FragmentMealDetailsBinding;
 import com.example.lamiacucina.models.Meal;
+import com.example.lamiacucina.viewmodels.MealDBViewModel;
 import com.google.android.material.tabs.TabLayout;
-
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -38,6 +40,11 @@ public class MealDetailsFragment extends Fragment {
     private String COOKING_PROCESS = "Cooking Process";
     private String INGREDIENTS = "Ingredients";
     private  Meal meal;
+    private ActionBar actionBar;
+    private MealDBViewModel mealDBViewModel;
+    private boolean favVisible;
+    private Menu menu;
+    private List<Meal> mealsList;
 
 
 
@@ -49,6 +56,14 @@ public class MealDetailsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        mealDBViewModel = new ViewModelProvider(this.getActivity()).get(MealDBViewModel.class);
+        mealsList = mealDBViewModel.getAllMeals().getValue();
+
+        meal = MealDetailsFragmentArgs.fromBundle(getArguments()).getMeal();
+
+
+
     }
 
     @Override
@@ -67,23 +82,49 @@ public class MealDetailsFragment extends Fragment {
         item.setVisible(false);
 
         inflater.inflate(R.menu.show_meal_fragment_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
+        this.menu = menu;
 
+        menu.findItem(R.id.Fav_del_MA).setVisible(favVisible);
+        menu.findItem(R.id.Favourite_MA).setVisible(!favVisible);
+
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.Favourite_MA:
+                favVisible = false;
+                item.setVisible(false);
+                menu.findItem(R.id.Fav_del_MA).setVisible(true);
+                mealDBViewModel.insertIMeal(meal);
+                return true;
+            case R.id.Fav_del_MA:
+                favVisible = true;
+                item.setVisible(false);
+                menu.findItem(R.id.Favourite_MA).setVisible(true);
+                mealDBViewModel.deleteMeal(meal);
+                return true;
+            default:
+                break;
+        }
+
+        return false;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        meal = MealDetailsFragmentArgs.fromBundle(getArguments()).getMeal();
 
 
 
         if(meal.getStrMeal() == null){
             Log.d("MealDetailsFragment", "onViewCreated: Sono Nullo");
         }
-
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(meal.getStrMeal());
+        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setTitle(meal.getStrMeal());
         viewPager = binding.viewPager;
         tabLayout = binding.tabLayout;
 
@@ -99,8 +140,22 @@ public class MealDetailsFragment extends Fragment {
         viewPagerAdapter.addFragment(ingredientsFragment, "Ingredients");
         viewPagerAdapter.addFragment(cookingProcessFragment, "Cooking Process");
         viewPager.setAdapter(viewPagerAdapter);
-    }
 
+
+
+
+
+
+        if(mealDBViewModel.getAllMeals().getValue() != null) {
+            Log.d("TAG", "LA Dimensione della lista è:  " + mealDBViewModel.getAllMeals().getValue().size() + "L'altra lista è: " + mealsList.size());
+            if(mealsList!=null){
+            for (int i=0; i<mealsList.size();i++)
+                Log.d("TAG", "Elemento " + i + " " +mealsList.get(i).getIdMeal());
+            }
+        }
+
+
+    }
 
 
     private void newIngredientsFragment(String textKey, Meal meal, Fragment fragment) {
@@ -115,4 +170,25 @@ public class MealDetailsFragment extends Fragment {
         fragment.setArguments(bundle);
     }
 
+    private boolean equalsTo(List<Meal> mealDB, Meal MealAPI){
+
+        if(mealDB == null) {
+            return true;
+        } else {
+            for (int i = 0; i < mealDB.size(); i++) {
+                if(mealDB.get(i).getIdMeal() == (float) MealAPI.getIdMeal()){
+                    return true;
+                }
+
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        favVisible = equalsTo(mealsList, meal);
+        Log.d("onStart: ","La variabile è " + favVisible);
+    }
 }

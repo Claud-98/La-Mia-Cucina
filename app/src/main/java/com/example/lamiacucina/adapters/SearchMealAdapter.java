@@ -94,6 +94,7 @@ public class SearchMealAdapter extends RecyclerView.Adapter<SearchMealAdapter.Se
     }
 
     public void clearList(){
-        mealList.clear();
+        if(mealList!= null)
+            mealList.clear();
     }
 }

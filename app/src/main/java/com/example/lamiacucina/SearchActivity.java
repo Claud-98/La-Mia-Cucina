@@ -35,6 +35,7 @@ public class SearchActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
+
     }
 
     @Override

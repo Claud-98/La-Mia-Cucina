@@ -2,19 +2,6 @@ package com.example.lamiacucina;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,10 +11,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.example.lamiacucina.adapters.SearchMealAdapter;
 import com.example.lamiacucina.databinding.FragmentShowMealBinding;
 import com.example.lamiacucina.models.Meal;
 import com.example.lamiacucina.models.Resource;
+import com.example.lamiacucina.viewmodels.MealDBViewModel;
 import com.example.lamiacucina.viewmodels.MealViewModel;
 
 import java.util.List;
@@ -44,6 +41,7 @@ public class ShowMealFragment extends Fragment {
     private String searchQuery;
     private String SEARCH_QUERY = "searchQuery";
     private SearchMealAdapter searchMealAdapter;
+    private boolean submit = true;
 
 
 
@@ -55,11 +53,24 @@ public class ShowMealFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        MealDBViewModel mealDBViewModel = new ViewModelProvider(this.getActivity()).get(MealDBViewModel.class);
+
+
+        mealDBViewModel.getAllMeals().observe(this.getActivity(), new Observer<List<Meal>>() {
+            @Override
+            public void onChanged(List<Meal> mealList) {
+
+
+            }
+        });
+
         setHasOptionsMenu(true);
 
         if(savedInstanceState != null){
             searchQuery = savedInstanceState.getString(SEARCH_QUERY);
         }
+
     }
 
     @Override
@@ -95,20 +106,19 @@ public class ShowMealFragment extends Fragment {
                         searchMealAdapter.setData(mealsResource.getData());
 
 
-                        if(mealsResource.getData() != null) {
-
+                        if(mealsResource.getData() != null ) {
+                            submit = true;
                             for (int i = 0; i < mealsResource.getData().size(); i++) {
 
-                                Log.d(TAG, "Ricetta " + i + " " + mealsResource.getData().get(i).getStrMeal());
+                                //Log.d(TAG, "Ricetta " + i + " " + mealsResource.getData().get(i).getStrMeal());
                                 }
-                            Log.d(TAG, "SizeList: " + mealsResource.getData().size());
+                            //Log.d(TAG, "SizeList: " + mealsResource.getData().size());
 
                         } else{
-
                             Log.d(TAG, "Informazioni Aggiuntive di Errore: " + mealsResource.getTotalResults() + " " + mealsResource.getStatusCode() + " " + mealsResource.getStatusMessage());
-                            //Navigation.findNavController(getView()).navigate(R.id.errorAction);
+                            submit = false;
+                            Navigation.findNavController(getView()).navigate(R.id.errorAction);
                         }
-
                     }
                 };
 
@@ -130,7 +140,7 @@ public class ShowMealFragment extends Fragment {
         });
 
         if(searchQuery != null) {
-            searchView.setQuery(searchQuery, true);
+            searchView.setQuery(searchQuery, submit);
             searchView.clearFocus();
         }
 
@@ -194,8 +204,6 @@ public class ShowMealFragment extends Fragment {
         });
 
         binding.showMealRecyclerView.setAdapter(searchMealAdapter);
-
-
 
 
 

@@ -1,5 +1,8 @@
 package com.example.lamiacucina.viewmodels;
 
+import android.app.Application;
+
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -13,6 +16,8 @@ public class MealViewModel extends ViewModel {
 
     private MutableLiveData<Resource<List<Meal>>> meals;
 
+
+
     public MutableLiveData<Resource<List<Meal>>> getMealsResource(String s) {
         //if (meals == null) { // sigleton!!!
             meals = new MutableLiveData<>();
@@ -21,6 +26,10 @@ public class MealViewModel extends ViewModel {
         //}
         return meals;
     }
+
+
+
+
 
 
 }

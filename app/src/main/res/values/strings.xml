@@ -13,6 +13,10 @@
     <string name="MealTab2">Procedimento</string>
     <string name="Tab1">Ingredients</string>
     <string name="cooking_process">Cooking Process</string>
+    <string name="error_img">error_img</string>
+    <string name="errorMsg">OPS! Qualcosa è andato storto! riprova...</string>
+    <string name="button_back">Back</string>
+    <string name="delete_favourite">Delete Favourite</string>
 
 
 </resources>
