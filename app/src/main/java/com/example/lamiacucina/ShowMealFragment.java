@@ -24,8 +24,8 @@ import com.example.lamiacucina.adapters.SearchMealAdapter;
 import com.example.lamiacucina.databinding.FragmentShowMealBinding;
 import com.example.lamiacucina.models.Meal;
 import com.example.lamiacucina.models.Resource;
-import com.example.lamiacucina.viewmodels.MealDBViewModel;
 import com.example.lamiacucina.viewmodels.MealViewModel;
+
 
 import java.util.List;
 
@@ -54,16 +54,16 @@ public class ShowMealFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MealDBViewModel mealDBViewModel = new ViewModelProvider(this.getActivity()).get(MealDBViewModel.class);
 
+        mealViewModel = new ViewModelProvider(this.getActivity()).get(MealViewModel.class);
 
-        mealDBViewModel.getAllMeals().observe(this.getActivity(), new Observer<List<Meal>>() {
+        /*
+        mealViewModel.getAllMeals().observe(this.getActivity(), new Observer<List<Meal>>() {
             @Override
             public void onChanged(List<Meal> mealList) {
 
-
             }
-        });
+        });*/
 
         setHasOptionsMenu(true);
 
@@ -108,12 +108,6 @@ public class ShowMealFragment extends Fragment {
 
                         if(mealsResource.getData() != null ) {
                             submit = true;
-                            for (int i = 0; i < mealsResource.getData().size(); i++) {
-
-                                //Log.d(TAG, "Ricetta " + i + " " + mealsResource.getData().get(i).getStrMeal());
-                                }
-                            //Log.d(TAG, "SizeList: " + mealsResource.getData().size());
-
                         } else{
                             Log.d(TAG, "Informazioni Aggiuntive di Errore: " + mealsResource.getTotalResults() + " " + mealsResource.getStatusCode() + " " + mealsResource.getStatusMessage());
                             submit = false;
@@ -168,9 +162,7 @@ public class ShowMealFragment extends Fragment {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
 
-                Intent goBackMain = new Intent(getActivity(), MainActivity.class);
-                goBackMain.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(goBackMain);
+                Navigation.findNavController(getView()).navigate(R.id.goBackFavourites);
                 return false;
             }
         });
@@ -187,7 +179,7 @@ public class ShowMealFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-        mealViewModel =new ViewModelProvider(requireActivity()).get(MealViewModel.class);
+
 
 
 

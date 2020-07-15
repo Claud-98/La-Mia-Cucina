@@ -18,11 +18,7 @@ public abstract class MealsRoomDB extends RoomDatabase {
     public static MealsRoomDB getDatabase(Context context) {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                    MealsRoomDB.class, MealsRoomDB.class.getName())
-                    //if you want create db only in memory, not in file
-                    //Room.inMemoryDatabaseBuilder
-                    //(context.getApplicationContext(), DataRoomDbase.class)
-                    .build();
+                    MealsRoomDB.class, MealsRoomDB.class.getName()).build();
         }
         return INSTANCE;
     }

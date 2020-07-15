@@ -14,7 +14,7 @@
         <item
             android:title="@string/delete_favourite"
             android:id="@+id/Fav_del_MA"
-            android:icon="@drawable/icon_delete"
+            android:icon="@drawable/icon_star_full_24dp"
             app:showAsAction="collapseActionView|always"
 
             />

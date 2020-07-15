@@ -2,19 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:title="@string/icon_add_MA"
-        android:id="@+id/Add_MA"
-        android:icon="@drawable/icon_add_ma"
-        app:showAsAction="always"
-        />
-
-    <item
-        android:title="@string/icon_favourite_MA"
-        android:id="@+id/Favourite_MA"
-        android:icon="@drawable/icon_preferred_ma"
-        app:showAsAction="always"
-        />
 
     <item
         android:title="@string/icon_search_MA"

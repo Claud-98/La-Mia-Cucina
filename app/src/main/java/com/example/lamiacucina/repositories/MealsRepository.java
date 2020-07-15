@@ -138,26 +138,6 @@ public class MealsRepository {
             return null;
         }
 
-
-
-    /*
-
-    public void deleteItemById(Long idMeal) {
-        new deleteByIdAsyncTask(mealDao).execute(idMeal);
-    }
-
-    private static class deleteByIdAsyncTask extends AsyncTask<Long, Void, Void> {
-        private MealDao mAsyncTaskDao;
-        deleteByIdAsyncTask(MealDao dao) {
-            mAsyncTaskDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(final Long... params) {
-            mAsyncTaskDao.deleteByMealId(params[0]);
-            return null;
-        }
-*/
 //
     }
 
